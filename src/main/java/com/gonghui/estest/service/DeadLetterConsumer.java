@@ -3,15 +3,12 @@ package com.gonghui.estest.service;
 import com.gonghui.estest.config.RabbitDeadLetterConfig;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
-
 public class DeadLetterConsumer {
 
     /*@RabbitListener(bindings = @QueueBinding(
@@ -39,8 +36,8 @@ public class DeadLetterConsumer {
     public void process(Message message, Channel channel) throws IOException {
         String msg = new String(message.getBody());
         System.out.println("DeadLetterConsumer :" + msg);
-        //channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+        channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
         //事实上手动提交的时候，basicNack的最后一个参数requeue = true时，消息会被无限次的放入消费队列重新消费，直至回送ACK。
-        channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+//        channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
     }
 }
