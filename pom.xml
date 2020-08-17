@@ -68,7 +68,6 @@
         </dependency>
 
 
-
     </dependencies>
 
     <build>
@@ -76,6 +75,29 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <!--如果package时不想用docker打包,就注释掉这个goal-->
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>es-test</repository>
+                    <!--<tag>${project.version}</tag>-->
+                    <buildArgs>
+                        <!--提供参数向Dockerfile传递-->
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>
