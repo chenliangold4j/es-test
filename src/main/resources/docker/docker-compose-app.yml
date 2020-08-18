@@ -10,3 +10,12 @@ services:
       - redis:redis
       - rabbitmq:rabbitmq
     container_name: es-test
+  demo2:
+    ports:
+      - "6061:6060"
+    image: es-test:latest
+    external_links:
+      - elasticsearch:elasticsearch
+      - redis:redis
+      - rabbitmq:rabbitmq
+    container_name: es-test2
